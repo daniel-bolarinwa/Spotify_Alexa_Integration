@@ -20,7 +20,7 @@ def run():
     #         added_song = spotify_client.add_song_to_spotify(spotify_song_id)
     #         if added_song:
     #             print(f"Added {song.artist} - {song.track} to your Spotify Liked Songs")
-
+    # oaidfnaopfnadao
     current_track_info = spotify_client.get_current_song()
     current_track_song_name = current_track_info['track_name']
     current_track_artist = current_track_info['artist']
