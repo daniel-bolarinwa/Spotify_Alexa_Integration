@@ -8,7 +8,7 @@ def run():
     spotify_client = SpotifyClient(spotify_token)
     #playlists = youtube_client.get_playlists()
     # for index, playlist in enumerate(playlists):
-    #     print(f"{index}: {playlist.title}")
+    #     print(f"{index}: {playlist.title}") gjgjggg
     # choice = int(input("Enter your choice: "))
     # chosen_playlist = playlists[choice]
     #print(f"you chose: {chosen_playlist.title}")
