@@ -10,7 +10,12 @@ class DeployStack(Stack):
 
         fn = Lambda.Function(self, "Spotify_Alexa_Function",
             runtime=Lambda.Runtime.PYTHON_3_8,
-            handler="index.handler",
-            code=Lambda.Code.from_asset(path.join(__dirname, "lambda-handler"))
+            handler="run.lambda_handler",
+            code=Lambda.Code.from_asset("../spotify-service")
+        )
+
+        fn.add_permission('alexa-invocation-trigger',
+            principal=iam.ServicePrincipal('alexa-appkit.amazon.com'),
+            action='lambda:InvokeFunction'
         )
         

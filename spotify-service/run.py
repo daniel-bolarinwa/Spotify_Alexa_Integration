@@ -1,7 +1,7 @@
 import os
-from spotify_client import SpotifyClient
 # from youtube_client import YoutubeClient
 from secrets import spotify_token
+from spotify_client import SpotifyClient
 
 def lambda_handler(event, context):
     #youtube_client = YoutubeClient('creds/client_secret.json')
@@ -34,5 +34,5 @@ def lambda_handler(event, context):
         if added_song:
             print(f"Added {current_track_artist} - {current_track_song_name} to your Spotify Liked Songs")
 
-if __name__ == '__main__':
-    lambda_handler()
+# if __name__ == '__main__':
+#     lambda_handler()
