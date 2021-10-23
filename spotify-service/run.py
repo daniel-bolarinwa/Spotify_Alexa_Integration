@@ -1,38 +1,29 @@
-import os
-# from youtube_client import YoutubeClient
-from secrets import spotify_token
+import logging
+from authenticate import authenticate
 from spotify_client import SpotifyClient
 
-def lambda_handler(event, context):
-    #youtube_client = YoutubeClient('creds/client_secret.json')
-    spotify_client = SpotifyClient(spotify_token)
-    #playlists = youtube_client.get_playlists()
-    # for index, playlist in enumerate(playlists):
-    #     print(f"{index}: {playlist.title}")
-    # choice = int(input("Enter your choice: "))
-    # chosen_playlist = playlists[choice]
-    #print(f"you chose: {chosen_playlist.title}")
-    #songs = youtube_client.get_videos_from_playlist(chosen_playlist.id)
-    #rint(f"Attempting to add {len(songs)}")
-    # for song in songs:
-    #     spotify_song_id = spotify_client.search_song(song.artist, song.track)
-    #     if spotify_song_id:
-    #         added_song = spotify_client.add_song_to_spotify(spotify_song_id)
-    #         if added_song:
-    #             print(f"Added {song.artist} - {song.track} to your Spotify Liked Songs")
+def lambda_handler():#event, context):
+    logging.info('setting the secret name to retrieve from secrets manager')
+    secret_name = "client-credentials"
+    spotify_token = authenticate(secret_name)
 
-    current_track_info = spotify_client.get_current_song()
+    logging.debug('creating spotify client object to perform API operations')
+    spotify_client = SpotifyClient(spotify_token)
+
+    logging.debug('getting users current track information')
+    current_track_info = spotify_client.get_current_song(spotify_token)
     current_track_song_name = current_track_info['track_name']
     current_track_artist = current_track_info['artist']
 
-    print(f"user is currently listening to {current_track_song_name} by {current_track_artist}")
+    logging.info(f"user is currently listening to {current_track_song_name} by {current_track_artist}")
 
-    spotify_song_id = spotify_client.search_song(current_track_artist, current_track_song_name)
+    spotify_song_id = spotify_client.search_song(current_track_artist, current_track_song_name, spotify_token)
 
     if spotify_song_id:
-        added_song = spotify_client.add_song_to_spotify(spotify_song_id)
+        logging.debug('adding users current playing track to liked songs')
+        added_song = spotify_client.add_song_to_spotify(spotify_song_id, spotify_token)
         if added_song:
-            print(f"Added {current_track_artist} - {current_track_song_name} to your Spotify Liked Songs")
+            logging.info(f"Added {current_track_artist} - {current_track_song_name} to your Spotify Liked Songs")
 
-# if __name__ == '__main__':
-#     lambda_handler()
+if __name__ == '__main__':
+    lambda_handler()

@@ -1,16 +1,15 @@
 import requests
-from secrets import spotify_token
 
 class SpotifyClient(object):
     def __init__(self, api_token):
         self.api_token = api_token
 
-    def get_current_song(self):
+    def get_current_song(self, api_token):
         query = "https://api.spotify.com/v1/me/player/currently-playing?market=GB"
         response = requests.get(
             query,
             headers={
-                "Authorization": f"Bearer {spotify_token}"
+                "Authorization": f"Bearer {api_token}"
             }
         )
         response_json = response.json()
@@ -30,13 +29,13 @@ class SpotifyClient(object):
 
         return current_track_info
 
-    def search_song(self, artist, track):
+    def search_song(self, artist, track, api_token):
         query = f"https://api.spotify.com/v1/search?q=track%3A{track}+artist%3A{artist}&type=track&offset=0&limit=20"
         response = requests.get(
             query,
              headers={
                 "Content-Type": "application/json",
-                "Authorization": f"Bearer {spotify_token}"
+                "Authorization": f"Bearer {api_token}"
              }
         )
         response_json = response.json()
@@ -46,7 +45,7 @@ class SpotifyClient(object):
         else:
             raise Exception(f"No song found for {artist} = {track}")
 
-    def add_song_to_spotify(self, song_id):
+    def add_song_to_spotify(self, song_id, api_token):
         url = "https://api.spotify.com/v1/me/tracks"
         response = requests.put(
             url,
@@ -55,7 +54,7 @@ class SpotifyClient(object):
             },
             headers={
                 "Content-Type": "application/json",
-                "Authorization": f"Bearer {spotify_token}"
+                "Authorization": f"Bearer {api_token}"
             }
         )
         return response.ok
