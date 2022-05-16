@@ -1,5 +1,4 @@
 import requests
-from secrets import spotify_token
 
 class SpotifyClient(object):
     def __init__(self, api_token):
@@ -10,7 +9,7 @@ class SpotifyClient(object):
         response = requests.get(
             query,
             headers={
-                "Authorization": f"Bearer {spotify_token}"
+                "Authorization": f"Bearer {self.api_token}"
             }
         )
         response_json = response.json()
@@ -36,7 +35,7 @@ class SpotifyClient(object):
             query,
              headers={
                 "Content-Type": "application/json",
-                "Authorization": f"Bearer {spotify_token}"
+                "Authorization": f"Bearer {self.api_token}"
              }
         )
         response_json = response.json()
@@ -55,7 +54,7 @@ class SpotifyClient(object):
             },
             headers={
                 "Content-Type": "application/json",
-                "Authorization": f"Bearer {spotify_token}"
+                "Authorization": f"Bearer {self.api_token}"
             }
         )
         return response.ok

@@ -1,0 +1,30 @@
+
+<!-- prettify this later if I have time-->
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Alexa Spotify Integration</title>
+        <link rel='stylesheet' type='text/css' media='screen' href='https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css'>
+    </head>
+    <body>
+        <div>
+            <h1 style="font-size: 30px;"><b>Alexa Spotify Integration</b></h1>
+            <h2 style="font-size: 30px;"><b>About the App</b></h2>
+            <p>
+                This is a fun little side project I have done to address the pain point of listening to a new song and having to unlock you phone or switch apps on your device
+                to log into your spotify app and then like the song or add it to a playlist. With this you will be able to ask alexa to dynamically add a new song you have
+                discovered to your like songs or a specific playlist without the cumbersome task of manually doing that.
+            </p>
+            <h2 style="font-size: 30px;"><b>Authorisation process</b></h2>
+            <p>
+                In order for the alexa skill to function properly, it needs you to give it permission to access to spotify player playback status so it can retrieve the song 
+                you are listening to in real time and then add that to your like songs or a playlist of your choice.
+
+                NOTE: it will only have access to your playback information it cannot access any other information you don't authorise to, we configure the authourisation scope
+                of the app purely for playback information access only.
+            </p>
+            <button type="button" id="auth_button" class="button is-primary"><b>Authorisation Successful!</b></button>
+        </div>
+    </body>
+</html>
