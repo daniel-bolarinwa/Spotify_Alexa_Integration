@@ -4,7 +4,7 @@ import logging
 import requests
 import base64
 import webbrowser
-from get_secret import get_creds, store_token
+from src.get_secret import get_creds, store_token
 from django.shortcuts import render
 
 CLIENT_ID, CLIENT_SECRET = get_creds("client-credentials")
