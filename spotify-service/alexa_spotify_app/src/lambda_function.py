@@ -70,13 +70,10 @@ class LikeSongIntentHandler(AbstractRequestHandler):
             added_song = spotify_client.add_song_to_spotify(spotify_song_id)
             if added_song:
                 logger.info(f"Added {current_track_artist} - {current_track_song_name} to your Spotify Liked Songs")
-        
-        # get localization data
-        data = handler_input.attributes_manager.request_attributes["_"]
 
-        speech = data[prompts.LIKE_SONG_MESSAGE].format(f"{current_track_song_name} by {current_track_artist}")
+        speech = prompts.LIKE_SONG_MESSAGE.format(f"{current_track_song_name} by {current_track_artist}")
 
-        handler_input.response_builder.speak(speech).set_card(SimpleCard(data[prompts.SKILL_NAME], f"{current_track_song_name} by {current_track_artist}"))
+        handler_input.response_builder.speak(speech).set_card(SimpleCard(prompts.SKILL_NAME, f"{current_track_song_name} by {current_track_artist}"))
         return handler_input.response_builder.response
         
     def test_api(self, token):
@@ -118,7 +115,6 @@ class LikeSongIntentHandler(AbstractRequestHandler):
             # save the access token
             spotify_auth_token = auth_response_data['access_token']
 
-            logger.info('attempt to authenticate with spotify in order to retrieve the access token was successful')
             response = requests.get(
                 query,
                 headers={
@@ -128,6 +124,7 @@ class LikeSongIntentHandler(AbstractRequestHandler):
 
             response_json = response.json() # TODO: error handle this response in case it is not a 200
             store_token(spotify_auth_token, refresh_token)
+            logger.info('attempt to authenticate with spotify in order to retrieve the access token was successful')
             return spotify_auth_token
         else:
             return token
