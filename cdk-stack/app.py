@@ -7,7 +7,7 @@ from deploy.deploy_stack import DeployStack
 
 
 app = cdk.App()
-DeployStack(app, "DeployStack",
+DeployStack(app, "AlexaSpotifyIntegrationStack",
     # If you don't specify 'env', this stack will be environment-agnostic.
     # Account/Region-dependent features and context lookups will not work,
     # but a single synthesized template can be deployed anywhere.
