@@ -1,6 +1,6 @@
 # Alexa Prompts Language Constants
 
-SKILL_NAME = "manage songs"
+SKILL_NAME = "song manager"
 LIKE_SONG_MESSAGE = "I have added {} to your liked songs"
 HELP_MESSAGE = "You can say like this song, or, you can say exit... What can I help you with?"
 HELP_REPROMPT = "What can I help you with? Try saying like song"
