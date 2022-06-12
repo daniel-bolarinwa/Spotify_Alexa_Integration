@@ -1,4 +1,5 @@
 from aws_cdk import Stack
+import aws_cdk
 from constructs import Construct
 import aws_cdk.aws_lambda as Lambda
 import aws_cdk.aws_iam as iam
@@ -24,7 +25,8 @@ class DeployStack(Stack):
             runtime=Lambda.Runtime.PYTHON_3_8,
             handler="lambda_function.lambda_handler",
             code=Lambda.Code.from_asset("../spotify-service/alexa_spotify_app/src"),
-            layers=[fnLayer]
+            layers=[fnLayer],
+            timeout=aws_cdk.Duration.seconds(45)
         )
 
         fn.add_permission('alexa-invocation-trigger',
@@ -46,5 +48,4 @@ class DeployStack(Stack):
         secretsmanager.Secret(self, "auth_refresh_token_secret",
             secret_name="spotify_access_refresh_token",
             description="refresh token which the apps needs to regenerate the access token when it expires"
-        )
-        
+        )     

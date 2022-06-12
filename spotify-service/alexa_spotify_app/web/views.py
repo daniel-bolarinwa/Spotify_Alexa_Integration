@@ -19,7 +19,7 @@ def authorise(request):
     letters = string.ascii_lowercase + string.digits + string.ascii_uppercase
     state = ''.join(random.choice(letters) for i in range(16))
     
-    logging.debug('starting the spotify authentication process')
+    logging.debug('starting the spotify authorisation process')
 
     auth_url = 'https://accounts.spotify.com/authorize'
 
@@ -48,22 +48,30 @@ def authenticate(request):
     base64SecretString = base64SecretStringBytes.decode('ascii')
 
     # POST
-    auth_response = requests.post(AUTH_URL, 
-    headers={
-        "Authorization": f"Basic {base64SecretString}"
-    },
-    data={
-        'grant_type': 'authorization_code',
-        'code': code,
-        'redirect_uri': REDIRECT_URI
-    })
+    try:
+        auth_response = requests.post(AUTH_URL, 
+        headers={
+            "Authorization": f"Basic {base64SecretString}"
+        },
+        data={
+            'grant_type': 'authorization_code',
+            'code': code,
+            'redirect_uri': REDIRECT_URI
+        })
+    except Exception:
+        return render(request, 'auth_failed.html', context=None)
+
     # convert the response to JSON
     auth_response_data = auth_response.json()
 
     # save the access token
-    spotify_auth_token = auth_response_data['access_token']
-    spotify_refresh_token = auth_response_data['refresh_token']
+    try:
+        spotify_auth_token = auth_response_data['access_token']
+        spotify_refresh_token = auth_response_data['refresh_token']
+    except KeyError:
+        return render(request, 'auth_failed.html', context=None)
+
     logging.info('attempt to authenticate with spotify in order to retrieve the access token was successful')
 
     store_token(spotify_auth_token, spotify_refresh_token)
-    return render(request, 'redirect.html', context=None)
+    return render(request, 'authorise.html', context=None)

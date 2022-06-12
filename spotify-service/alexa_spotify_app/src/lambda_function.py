@@ -52,7 +52,12 @@ class LikeSongIntentHandler(AbstractRequestHandler):
         logger.info('setting the secret name to retrieve from secrets manager')
         
         spotify_token = get_creds("spotify_access_token")
-        validated_token = self.test_api(spotify_token)
+        try:
+            validated_token = self.test_api(spotify_token)
+        except Exception as e:
+            speech = prompts.ERROR_MESSAGE
+            handler_input.response_builder.speak(speech).set_card(SimpleCard(prompts.SKILL_NAME, f"The error that occured: {e}"))
+            return handler_input.response_builder.response
         
         logger.debug('creating spotify client object to perform API operations')
         spotify_client = SpotifyClient(validated_token)
