@@ -2,6 +2,7 @@ import logging
 import prompts
 import base64
 import requests
+import re
 
 from ask_sdk_core.skill_builder import SkillBuilder
 from ask_sdk_core.utils import is_request_type, is_intent_name
@@ -76,9 +77,14 @@ class LikeSongIntentHandler(AbstractRequestHandler):
             if added_song:
                 logger.info(f"Added {current_track_artist} - {current_track_song_name} to your Spotify Liked Songs")
 
-        speech = prompts.LIKE_SONG_MESSAGE.format(f"{current_track_song_name} by {current_track_artist}")
+        altered_song_name = current_track_song_name.replace('$', 's').replace('@', 'at').replace('&', 'and')
+        altered_artist = current_track_artist.replace('$', 's').replace('@', 'at').replace('&', 'and')
 
-        handler_input.response_builder.speak(speech).set_card(SimpleCard(prompts.SKILL_NAME, f"{current_track_song_name} by {current_track_artist}"))
+        altered_song_name = re.sub(r'[^\w\s]', '', altered_song_name.lower(), flags=re.UNICODE)
+        altered_artist = re.sub(r'[^\w\s]', '', altered_artist.lower(), flags=re.UNICODE)
+        speech = prompts.LIKE_SONG_MESSAGE.format(f"{altered_song_name} by {altered_artist}")
+
+        handler_input.response_builder.speak(speech).set_card(SimpleCard(prompts.SKILL_NAME, f"{altered_song_name} by {altered_artist}"))
         return handler_input.response_builder.response
         
     def test_api(self, token):

@@ -37,7 +37,7 @@ class DeployStack(Stack):
 
         fn.add_to_role_policy(iam.PolicyStatement(
             actions=["secretsmanager:*"],
-            resources=["arn:aws:secretsmanager:*:947331989401:secret:*"]
+            resources=[f"arn:aws:secretsmanager:*:{self.account}:secret:*"]
         ))
 
         secretsmanager.Secret(self, "auth_token_secret",

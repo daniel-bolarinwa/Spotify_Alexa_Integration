@@ -1,4 +1,4 @@
-# Spotify_Alexa_Integration
+# Spotify_Alexa_Integration (WIP)
 
 This is a POC (proof of concept) project that investigates integrating Alexa to manage your Spotify music library. 
 
@@ -22,4 +22,4 @@ Phase 2 - Will implement adding songs to specific playlists (not yet built)
 
 7. You are now good to go! 
 
-NOTE: This is still in testing phase so the app has not yet being published as a commercial alexa skill which can be used on your own personal Alexa device
+NOTE: This is still in testing phase so the app has not yet been published as a commercial alexa skill which can be used on your own personal Alexa device
